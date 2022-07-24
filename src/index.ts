@@ -233,11 +233,9 @@ export class RemapTsc {
 
 Object.defineProperties(RemapTsc.prototype, {
 	sourceFiles: {
-		enumerable: true,
 		configurable: false,
 	},
 	outputFiles: {
-		enumerable: true,
 		configurable: false,
 	},
 });
