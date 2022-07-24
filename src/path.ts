@@ -6,7 +6,11 @@ import { path } from './imports.js';
  * backslashes in windows break with `Error: Debug Failure`s in some uncommon
  * cases.
  *
- * @see https://github.com/microsoft/TypeScript/blob/165a1c4a405104f1e3849b4856bc57117e136d3f/src/compiler/path.ts#L4
+ * On \*nix, if a file/directory has a backslash in the file name, it is
+ * misinterpreted.
+ *
+ * @see https://togithub.com/microsoft/TypeScript/blob/165a1c4a405104f1e3849b4856bc57117e136d3f/src/compiler/path.ts#L4
+ * @see https://togithub.com/microsoft/TypeScript/issues/44174
  */
 export function normalizeForTypeScript (file: string) {
 	return path.normalize(file).replace(/\\/g, '/');
