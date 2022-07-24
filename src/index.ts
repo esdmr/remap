@@ -66,6 +66,25 @@ export class OutputFile {
 	}
 }
 
+function findConfig (projectPath: string, preferences: Preferences) {
+	projectPath = path.resolve(projectPath);
+
+	if (preferences.host.parseConfig.fileExists(projectPath)) {
+		return projectPath;
+	}
+
+	const configPath = path.join(projectPath, 'tsconfig.json');
+
+	if (preferences.host.parseConfig.fileExists(configPath)) {
+		return configPath;
+	}
+
+	throw new RemapTscError(
+		'Could not find a tsconfig file.',
+		`Searched in "${projectPath}".`,
+	);
+}
+
 export class RemapTsc {
 	private readonly _sourceFiles = new PathMap<SourceFile>();
 	private readonly _outputFiles = new PathMap<OutputFile>();
@@ -111,7 +130,10 @@ export class RemapTsc {
 	}
 
 	loadConfig (projectPath: string) {
-		const configPath = normalizeForTypeScript(this._findConfig(projectPath));
+		const configPath = normalizeForTypeScript(
+			findConfig(projectPath, this._preferences),
+		);
+
 		const configFile = ts.readConfigFile(
 			configPath,
 			this._preferences.host.parseConfig.readFile,
@@ -180,25 +202,6 @@ export class RemapTsc {
 				).map((file) => path.normalize(file)),
 			);
 		}
-	}
-
-	private _findConfig (projectPath: string) {
-		projectPath = path.resolve(projectPath);
-
-		if (this._preferences.host.parseConfig.fileExists(projectPath)) {
-			return projectPath;
-		}
-
-		const configPath = path.join(projectPath, 'tsconfig.json');
-
-		if (this._preferences.host.parseConfig.fileExists(configPath)) {
-			return configPath;
-		}
-
-		throw new RemapTscError(
-			'Could not find a tsconfig file.',
-			`Searched in "${projectPath}".`,
-		);
 	}
 
 	private _addMapping (input: string, outputs: readonly string[]) {
