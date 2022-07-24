@@ -7,7 +7,7 @@ import t from 'tap';
 import { Tsconfig } from 'tsconfig-type';
 import readdirp from 'readdirp';
 import * as source from './source.js';
-import { rejects, throws } from './errors.js';
+import { throws } from './errors.js';
 
 const rootTestDir = fileURLToPath(new URL('..', import.meta.url));
 const { useCaseSensitiveFileNames } = source.ts.sys;
@@ -110,10 +110,7 @@ export async function runTestCase (
 				},
 				async (t) => {
 					if (testCase.files === undefined) {
-						await rejects(t,
-							runTsc(testCase, dir),
-							source.RemapTscError,
-						);
+						await t.rejects(runTsc(testCase, dir), 'expected tsc to fail');
 					} else {
 						t.strictSame(
 							await getTscBuildPaths(testCase, dir),
