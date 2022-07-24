@@ -4,10 +4,17 @@ import { getPreferences, Options, Preferences } from './options.js';
 import { normalizeForTypeScript, PathMap, PathSet, ReadonlyPathMap, ReadonlyPathSet } from './path.js';
 import { validateCommandLine, validateFile } from './validators.js';
 
+/**
+ * Information about a `tsc` source file.
+ */
 export class SourceFile {
+	/** Absolute path to the emitted JavaScript file. */
 	readonly javaScriptFile: string | undefined;
+	/** Absolute path to the emitted Declaration file. */
 	readonly declarationFile: string | undefined;
+	/** Absolute paths to the emitted source maps. */
 	readonly sourceMapFiles: ReadonlyPathSet;
+	/** Absolute paths to all emitted files. */
 	readonly outputFiles: ReadonlyPathSet;
 
 	get [Symbol.toStringTag] () {
@@ -52,12 +59,18 @@ export class SourceFile {
 	}
 }
 
+/**
+ * Information about a `tsc` output file.
+ */
 export class OutputFile {
 	get [Symbol.toStringTag] () {
 		return OutputFile.name;
 	}
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @param sourceFile Absolute path to the original TypeScript file.
+	 */
 	constructor (readonly sourceFile: string) {
 		Object.defineProperty(this, 'sourceFile', {
 			writable: false,
@@ -85,6 +98,9 @@ function findConfig (projectPath: string, preferences: Preferences) {
 	);
 }
 
+/**
+ * Maps `tsc` source/output files via the TypeScript api.
+ */
 export class RemapTsc {
 	private readonly _sourceFiles = new PathMap<SourceFile>();
 	private readonly _outputFiles = new PathMap<OutputFile>();
@@ -124,11 +140,20 @@ export class RemapTsc {
 		});
 	}
 
+	/**
+	 * Delete all source and output files.
+	 */
 	clear () {
 		this._sourceFiles.clear();
 		this._outputFiles.clear();
 	}
 
+	/**
+	 * Load a `tsconfig.json` file.
+	 *
+	 * @param projectPath Path to either a `tsconfig` file or a directory
+	 * containing a `tsconfig` file. May be absolute or relative.
+	 */
 	loadConfig (projectPath: string) {
 		const configPath = normalizeForTypeScript(
 			findConfig(projectPath, this._preferences),
@@ -178,7 +203,7 @@ export class RemapTsc {
 		let effectiveRoot: string | undefined;
 
 		// If composite is set, the default [rootDir] is […] the directory
-		// containing the tsconfig.json file.
+		// containing the `tsconfig.json` file.
 		if (composite || rootDir !== undefined) {
 			effectiveRoot = path.resolve(
 				path.dirname(configPath),

@@ -22,14 +22,21 @@ export function getPreferences (options: Options): Preferences {
 	};
 }
 
+/**
+ * Set of functions to pass to TypeScript as a `host`.
+ */
 export interface Host {
 	readonly formatDiagnostics: ts.FormatDiagnosticsHost;
 	readonly parseConfig: ts.ParseConfigHost;
 }
 
+/**
+ * Options for `remap-tsc`.
+ */
 export interface Options {
 	/**
-	 * Custom TypeScript host for non-Node.JS environments.
+	 * Custom TypeScript host for non-Node.JS environments. Custom hosts are
+	 * *not* tested (yet).
 	 */
 	host?: Host;
 	/**
