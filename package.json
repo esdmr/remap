@@ -10,6 +10,7 @@
   "repository": "https://github.com/esdmr/remap-tsc",
   "license": "MIT",
   "author": "Saeed M Rad <esdmr0@gmail.com> (https://github.com/esdmr)",
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
@@ -55,7 +56,6 @@
     "@types/tap": "15.0.7",
     "c8": "7.11.3",
     "esbuild": "0.14.48",
-    "esbuild-node-externals": "1.4.1",
     "execa": "6.1.0",
     "mock-fs": "5.1.2",
     "readdirp": "3.6.0",
@@ -63,6 +63,7 @@
     "semver": "7.3.7",
     "tap": "16.3.0",
     "tsconfig-type": "1.25.0",
+    "typedoc": "0.23.8",
     "typescript": "4.7.4",
     "xo": "0.50.0"
   },

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "cleanOutputDir": true,
+  "hideGenerator": true,
+  "includeVersion": true,
+  "excludeInternal": true,
+  "excludePrivate": true,
+}

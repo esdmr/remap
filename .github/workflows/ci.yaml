@@ -62,7 +62,12 @@ jobs:
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
         run: pnpm run lint
 
-      - name: Run tests
+      - name: Run tests (without coverage)
+        if: matrix.node != '16' || matrix.os != 'ubuntu-latest'
+        run: pnpm run test
+
+      - name: Run tests (with coverage)
+        if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
         run: pnpm run test:coverage
 
       - name: Export coverage report
