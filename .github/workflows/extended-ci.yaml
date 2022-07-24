@@ -5,6 +5,7 @@ jobs:
   lint:
     name: CI
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
