@@ -102,7 +102,12 @@ await test('forceEmit', async (t) => {
 			}),
 		},
 		files: {
-			'b.ts': ['build/b.js', 'build/b.js.map', 'types/b.d.ts', 'types/b.d.ts.map'],
+			'b.ts': [
+				'build/b.js',
+				'build/b.js.map',
+				'types/b.d.ts',
+				'types/b.d.ts.map',
+			],
 		},
 	});
 

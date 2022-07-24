@@ -1,7 +1,13 @@
 import { RemapTscError } from './errors.js';
 import { path, ts } from './imports.js';
 import { getPreferences, Options, Preferences } from './options.js';
-import { normalizeForTypeScript, PathMap, PathSet, ReadonlyPathMap, ReadonlyPathSet } from './path.js';
+import {
+	normalizeForTypeScript,
+	PathMap,
+	PathSet,
+	ReadonlyPathMap,
+	ReadonlyPathSet,
+} from './path.js';
 import { validateCommandLine, validateFile } from './validators.js';
 
 /**
@@ -266,5 +272,15 @@ Object.defineProperties(RemapTsc.prototype, {
 });
 
 export { RemapTscError } from './errors.js';
-export type { Host as TscRemapHost, Options as TscRemapOptions } from './options.js';
-export type { PathMap, PathSet, ReadonlyPathMap, ReadonlyPathSet } from './path.js';
+
+export type {
+	Host as TscRemapHost,
+	Options as TscRemapOptions,
+} from './options.js';
+
+export type {
+	PathMap,
+	PathSet,
+	ReadonlyPathMap,
+	ReadonlyPathSet,
+} from './path.js';

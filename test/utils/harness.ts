@@ -11,7 +11,8 @@ import { throws } from './errors.js';
 
 const rootTestDir = fileURLToPath(new URL('..', import.meta.url));
 const { useCaseSensitiveFileNames } = source.ts.sys;
-const isTscEnabled = !source.isMockingEnabled && Boolean(process.env.TEST_ENABLE_TSC);
+const isTscEnabled
+	= !source.isMockingEnabled && Boolean(process.env.TEST_ENABLE_TSC);
 
 export interface CheckResolutionOptions {
 	readonly data: source.RemapTsc;
@@ -110,7 +111,10 @@ export async function runTestCase (
 				},
 				async (t) => {
 					if (testCase.files === undefined) {
-						await t.rejects(runTsc(testCase, dir), 'expected tsc to fail');
+						await t.rejects(
+							runTsc(testCase, dir),
+							'expected tsc to fail',
+						);
 					} else {
 						t.strictSame(
 							await getTscBuildPaths(testCase, dir),
@@ -139,9 +143,13 @@ async function runTestScenario (t: Tap.Test, testCase: TestCase, root: string) {
 	) as [string, ...string[]];
 
 	if (testCase.files === undefined) {
-		throws(t, () => {
-			testCase.loadConfig(data, ...searchPaths);
-		}, source.RemapTscError);
+		throws(
+			t,
+			() => {
+				testCase.loadConfig(data, ...searchPaths);
+			},
+			source.RemapTscError,
+		);
 	} else {
 		testCase.loadConfig(data, ...searchPaths);
 
@@ -296,7 +304,10 @@ function shouldSkip (conditions: TestCase['if']) {
 		return `TypeScript “${conditions.typescript}” required`;
 	}
 
-	if (conditions.vfs !== undefined && conditions.vfs !== source.isMockingEnabled) {
+	if (
+		conditions.vfs !== undefined
+		&& conditions.vfs !== source.isMockingEnabled
+	) {
 		return `Virtual file system must be ${
 			conditions.vfs ? 'enabled' : 'disabled'
 		}`;

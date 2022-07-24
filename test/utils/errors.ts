@@ -7,7 +7,10 @@ export function throws (
 		fn();
 		return t.fail('expected to throw');
 	} catch (error) {
-		return t.ok(error instanceof Error, `expected the error to be ${Error.name}: ${String(error)}`);
+		return t.ok(
+			error instanceof Error,
+			`expected the error to be ${Error.name}: ${String(error)}`,
+		);
 	}
 }
 
@@ -20,6 +23,9 @@ export async function rejects (
 		await promise;
 		return t.fail('expected to reject');
 	} catch (error) {
-		return t.ok(error instanceof Error, `expected the error to be ${Error.name}: ${String(error)}`);
+		return t.ok(
+			error instanceof Error,
+			`expected the error to be ${Error.name}: ${String(error)}`,
+		);
 	}
 }

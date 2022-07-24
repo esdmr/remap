@@ -1,11 +1,18 @@
 import path from 'node:path';
 import { ReadonlyPathMap } from './source.js';
 
-export default async function testReadonlyPathMap<T> (t: Tap.Test, instance: ReadonlyPathMap<T>) {
+export default async function testReadonlyPathMap<T> (
+	t: Tap.Test,
+	instance: ReadonlyPathMap<T>,
+) {
 	await t.test('is a valid ReadonlyPathMap', async (t) => {
 		t.equal(instance[Symbol.toStringTag], 'PathMap', '@@toStringTag');
 
-		t.equal(typeof instance[Symbol.iterator], 'function', 'typeof @@iterator');
+		t.equal(
+			typeof instance[Symbol.iterator],
+			'function',
+			'typeof @@iterator',
+		);
 
 		let size = 0;
 
