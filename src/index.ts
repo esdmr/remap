@@ -267,4 +267,4 @@ Object.defineProperties(RemapTsc.prototype, {
 
 export { RemapTscError } from './errors.js';
 export type { Host as TscRemapHost, Options as TscRemapOptions } from './options.js';
-export type { ReadonlyPathMap, ReadonlyPathSet } from './path.js';
+export type { PathMap, PathSet, ReadonlyPathMap, ReadonlyPathSet } from './path.js';
