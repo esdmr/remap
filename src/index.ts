@@ -147,6 +147,11 @@ export class RemapTsc {
 
 		validateCommandLine(commandLine);
 
+		if (this._preferences.forceEmit) {
+			commandLine.options.noEmit = false;
+			commandLine.options.emitDeclarationOnly = false;
+		}
+
 		const { composite, rootDir } = commandLine.options;
 		let effectiveRoot: string | undefined;
 

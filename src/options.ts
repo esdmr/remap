@@ -17,6 +17,7 @@ const defaultHost: Host = {
 export function getPreferences (options: Options): Preferences {
 	return {
 		host: defaultHost,
+		forceEmit: false,
 		...options,
 	};
 }
@@ -31,6 +32,13 @@ export interface Options {
 	 * Custom TypeScript host for non-Node.JS environments.
 	 */
 	host?: Host;
+	/**
+	 * Forcefully disable `noEmit` and `emitDeclarationOnly`. Enabling this flag
+	 * is incompatible with tsc.
+	 *
+	 * @default false
+	 */
+	forceEmit?: boolean;
 }
 
 export type Preferences = Required<Options>;
