@@ -1,7 +1,7 @@
 import { RemapTscError } from './errors.js';
 import { path, ts } from './imports.js';
 import { getPreferences, Options, Preferences } from './options.js';
-import { PathMap, PathSet, ReadonlyPathMap, ReadonlyPathSet } from './path.js';
+import { normalizeForTypeScript, PathMap, PathSet, ReadonlyPathMap, ReadonlyPathSet } from './path.js';
 import { validateCommandLine, validateFile } from './validators.js';
 
 export class SourceFile {
@@ -111,7 +111,7 @@ export class RemapTsc {
 	}
 
 	loadConfig (projectPath: string) {
-		const configPath = this._findConfig(projectPath);
+		const configPath = normalizeForTypeScript(this._findConfig(projectPath));
 		const configFile = ts.readConfigFile(
 			configPath,
 			this._preferences.host.parseConfig.readFile,

@@ -1,5 +1,17 @@
 import { path } from './imports.js';
 
+/**
+ * Convert a path to the correct format for TypeScript. TypeScript internally
+ * uses slashes to separate directories even in Windows. Without this,
+ * backslashes in windows break with `Error: Debug Failure`s in some uncommon
+ * cases.
+ *
+ * @see https://github.com/microsoft/TypeScript/blob/165a1c4a405104f1e3849b4856bc57117e136d3f/src/compiler/path.ts#L4
+ */
+export function normalizeForTypeScript (file: string) {
+	return path.normalize(file).replace(/\\/g, '/');
+}
+
 export function isPathUnderRoot (root: string, file: string) {
 	const relative = path.relative(root, file);
 
