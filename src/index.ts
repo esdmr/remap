@@ -1,13 +1,11 @@
 import { RemapTscError } from './errors.js';
 import { path, ts } from './imports.js';
 import { getPreferences, Options, Preferences } from './options.js';
-import {
-	normalizeForTypeScript,
+import { normalizeForTypeScript,
 	PathMap,
 	PathSet,
 	ReadonlyPathMap,
-	ReadonlyPathSet,
-} from './path.js';
+	ReadonlyPathSet } from './path.js';
 import { validateCommandLine, validateFile } from './validators.js';
 
 /**
