@@ -1,3 +1,4 @@
+import * as descriptors from './descriptors.js';
 import { RemapTscError } from './errors.js';
 import { path, ts } from './imports.js';
 import { getPreferences, Options, Preferences } from './options.js';
@@ -43,22 +44,10 @@ export class SourceFile {
 		this.outputFiles = new PathSet(outputFiles);
 
 		Object.defineProperties(this, {
-			javaScriptFile: {
-				writable: false,
-				configurable: false,
-			},
-			declarationFile: {
-				writable: false,
-				configurable: false,
-			},
-			sourceMapFiles: {
-				writable: false,
-				configurable: false,
-			},
-			outputFiles: {
-				writable: false,
-				configurable: false,
-			},
+			javaScriptFile: descriptors.readonlyProperty,
+			declarationFile: descriptors.readonlyProperty,
+			sourceMapFiles: descriptors.readonlyProperty,
+			outputFiles: descriptors.readonlyProperty,
 		});
 	}
 }
@@ -76,10 +65,7 @@ export class OutputFile {
 	 * @param sourceFile Absolute path to the original TypeScript file.
 	 */
 	constructor (readonly sourceFile: string) {
-		Object.defineProperty(this, 'sourceFile', {
-			writable: false,
-			configurable: false,
-		});
+		Object.defineProperty(this, 'sourceFile', descriptors.readonlyProperty);
 	}
 }
 
@@ -126,21 +112,9 @@ export class RemapTsc {
 		this._preferences = getPreferences(options);
 
 		Object.defineProperties(this, {
-			_sourceFiles: {
-				writable: false,
-				enumerable: false,
-				configurable: false,
-			},
-			_outputFiles: {
-				writable: false,
-				enumerable: false,
-				configurable: false,
-			},
-			_preferences: {
-				writable: false,
-				enumerable: false,
-				configurable: false,
-			},
+			_sourceFiles: descriptors.privateReadonlyProperty,
+			_outputFiles: descriptors.privateReadonlyProperty,
+			_preferences: descriptors.privateReadonlyProperty,
 		});
 	}
 
@@ -261,12 +235,8 @@ export class RemapTsc {
 }
 
 Object.defineProperties(RemapTsc.prototype, {
-	sourceFiles: {
-		configurable: false,
-	},
-	outputFiles: {
-		configurable: false,
-	},
+	sourceFiles: descriptors.publicProperty,
+	outputFiles: descriptors.publicProperty,
 });
 
 export { RemapTscError } from './errors.js';
