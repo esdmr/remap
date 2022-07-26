@@ -1,3 +1,4 @@
+import * as descriptors from './descriptors.js';
 import { RemapTscError } from './errors.js';
 import { path, ts } from './imports.js';
 import { getPreferences, Options, Preferences } from './options.js';
@@ -43,22 +44,10 @@ export class SourceFile {
 		this.outputFiles = new PathSet(outputFiles);
 
 		Object.defineProperties(this, {
-			javaScriptFile: {
-				writable: false,
-				configurable: false,
-			},
-			declarationFile: {
-				writable: false,
-				configurable: false,
-			},
-			sourceMapFiles: {
-				writable: false,
-				configurable: false,
-			},
-			outputFiles: {
-				writable: false,
-				configurable: false,
-			},
+			javaScriptFile: descriptors.readonly,
+			declarationFile: descriptors.readonly,
+			sourceMapFiles: descriptors.readonly,
+			outputFiles: descriptors.readonly,
 		});
 	}
 }
@@ -76,10 +65,7 @@ export class OutputFile {
 	 * @param sourceFile Absolute path to the original TypeScript file.
 	 */
 	constructor (readonly sourceFile: string) {
-		Object.defineProperty(this, 'sourceFile', {
-			writable: false,
-			configurable: false,
-		});
+		Object.defineProperty(this, 'sourceFile', descriptors.readonly);
 	}
 }
 
@@ -126,21 +112,9 @@ export class RemapTsc {
 		this._preferences = getPreferences(options);
 
 		Object.defineProperties(this, {
-			_sourceFiles: {
-				writable: false,
-				enumerable: false,
-				configurable: false,
-			},
-			_outputFiles: {
-				writable: false,
-				enumerable: false,
-				configurable: false,
-			},
-			_preferences: {
-				writable: false,
-				enumerable: false,
-				configurable: false,
-			},
+			_sourceFiles: descriptors.privateReadonly,
+			_outputFiles: descriptors.privateReadonly,
+			_preferences: descriptors.privateReadonly,
 		});
 	}
 
@@ -261,12 +235,8 @@ export class RemapTsc {
 }
 
 Object.defineProperties(RemapTsc.prototype, {
-	sourceFiles: {
-		configurable: false,
-	},
-	outputFiles: {
-		configurable: false,
-	},
+	sourceFiles: descriptors.readable,
+	outputFiles: descriptors.readable,
 });
 
 export { RemapTscError } from './errors.js';
