@@ -44,10 +44,10 @@ export class SourceFile {
 		this.outputFiles = new PathSet(outputFiles);
 
 		Object.defineProperties(this, {
-			javaScriptFile: descriptors.readonly,
-			declarationFile: descriptors.readonly,
-			sourceMapFiles: descriptors.readonly,
-			outputFiles: descriptors.readonly,
+			javaScriptFile: descriptors.readonlyProperty,
+			declarationFile: descriptors.readonlyProperty,
+			sourceMapFiles: descriptors.readonlyProperty,
+			outputFiles: descriptors.readonlyProperty,
 		});
 	}
 }
@@ -65,7 +65,7 @@ export class OutputFile {
 	 * @param sourceFile Absolute path to the original TypeScript file.
 	 */
 	constructor (readonly sourceFile: string) {
-		Object.defineProperty(this, 'sourceFile', descriptors.readonly);
+		Object.defineProperty(this, 'sourceFile', descriptors.readonlyProperty);
 	}
 }
 
@@ -112,9 +112,9 @@ export class RemapTsc {
 		this._preferences = getPreferences(options);
 
 		Object.defineProperties(this, {
-			_sourceFiles: descriptors.privateReadonly,
-			_outputFiles: descriptors.privateReadonly,
-			_preferences: descriptors.privateReadonly,
+			_sourceFiles: descriptors.privateReadonlyProperty,
+			_outputFiles: descriptors.privateReadonlyProperty,
+			_preferences: descriptors.privateReadonlyProperty,
 		});
 	}
 
@@ -235,8 +235,8 @@ export class RemapTsc {
 }
 
 Object.defineProperties(RemapTsc.prototype, {
-	sourceFiles: descriptors.readable,
-	outputFiles: descriptors.readable,
+	sourceFiles: descriptors.publicProperty,
+	outputFiles: descriptors.publicProperty,
 });
 
 export { RemapTscError } from './errors.js';
