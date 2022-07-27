@@ -1,5 +1,3 @@
-import assert from 'node:assert';
-import path from 'node:path';
 import { RemapTsc } from '@esdmr/remap-tsc';
 
 const data = new RemapTsc();
@@ -13,16 +11,10 @@ const data = new RemapTsc();
 //     └╴ build
 //        └╴ index.js
 
-data.loadConfig('tsconfig.json');
+data.loadConfig('src');
 
 // Map source to output.
-assert.strictEqual(
-	data.sourceFiles.get('src/index.ts')?.javaScriptFile,
-	path.resolve('build/index.js'),
-);
+console.log(data.sourceFiles.get('src/index.ts'));
 
 // Map output to source.
-assert.strictEqual(
-	data.outputFiles.get('build/index.js')?.sourceFile,
-	path.resolve('src/index.ts'),
-);
+console.log(data.outputFiles.get('build/index.js'));

@@ -1,73 +1,139 @@
 import * as descriptors from './descriptors.js';
 import { RemapTscError } from './errors.js';
-import { path, ts } from './imports.js';
+import { assert, path, ts } from './imports.js';
 import { getPreferences, Options, Preferences } from './options.js';
-import { normalizeForTypeScript,
-	PathMap,
-	PathSet,
-	ReadonlyPathMap,
-	ReadonlyPathSet } from './path.js';
+import { normalizeForTypeScript, PathMap, ReadonlyPathMap } from './path.js';
 import { validateCommandLine, validateFile } from './validators.js';
+
+export type OutputFileType = 'js' | 'map' | 'dts' | 'unknown';
 
 /**
  * Information about a `tsc` source file.
  */
-export class SourceFile {
+class SourceFile {
+	readonly #javaScriptFiles = new Set<OutputFile>();
+	readonly #declarationFiles = new Set<OutputFile>();
+	readonly #sourceMapFiles = new Set<OutputFile>();
+	readonly #outputFiles = new Set<OutputFile>();
+
 	/** Absolute path to the emitted JavaScript file. */
-	readonly javaScriptFile: string | undefined;
+	get javaScriptFiles (): ReadonlySet<OutputFile> {
+		return this.#javaScriptFiles;
+	}
+
 	/** Absolute path to the emitted Declaration file. */
-	readonly declarationFile: string | undefined;
+	get declarationFiles (): ReadonlySet<OutputFile> {
+		return this.#declarationFiles;
+	}
+
 	/** Absolute paths to the emitted source maps. */
-	readonly sourceMapFiles: ReadonlyPathSet;
+	get sourceMapFiles (): ReadonlySet<OutputFile> {
+		return this.#sourceMapFiles;
+	}
+
 	/** Absolute paths to all emitted files. */
-	readonly outputFiles: ReadonlyPathSet;
+	get outputFiles (): ReadonlySet<OutputFile> {
+		return this.#outputFiles;
+	}
 
 	get [Symbol.toStringTag] () {
 		return SourceFile.name;
 	}
 
 	/** @internal */
-	constructor (outputFiles: readonly string[]) {
-		const sourceMapFiles = new Set<string>();
+	constructor (readonly path: string) {
+		Object.defineProperty(this, 'path', descriptors.readonlyProperty);
+	}
 
-		for (const path of outputFiles) {
-			if (/\.[cm]?js$/i.exec(path) !== null) {
-				this.javaScriptFile = path;
-			} else if (/\.d\.[cm]?ts$/i.exec(path) !== null) {
-				this.declarationFile = path;
-			} else if (/\.map$/i.exec(path) !== null) {
-				sourceMapFiles.add(path);
+	/** @internal */
+	_addOutputFiles (outputFiles: readonly OutputFile[]) {
+		for (const file of outputFiles) {
+			file._setSourceFile(this);
+			this.#outputFiles.add(file);
+
+			switch (file.type) {
+				case 'js':
+					this.#javaScriptFiles.add(file);
+					break;
+
+				case 'dts':
+					this.#declarationFiles.add(file);
+					break;
+
+				case 'map':
+					this.#sourceMapFiles.add(file);
+					break;
+
+				default:
+				// Do nothing.
 			}
 		}
+	}
 
-		this.sourceMapFiles = new PathSet(sourceMapFiles);
-		this.outputFiles = new PathSet(outputFiles);
-
-		Object.defineProperties(this, {
-			javaScriptFile: descriptors.readonlyProperty,
-			declarationFile: descriptors.readonlyProperty,
-			sourceMapFiles: descriptors.readonlyProperty,
-			outputFiles: descriptors.readonlyProperty,
-		});
+	/** @internal */
+	_deleteOutputFile (outputFile: OutputFile) {
+		this.#javaScriptFiles.delete(outputFile);
+		this.#declarationFiles.delete(outputFile);
+		this.#sourceMapFiles.delete(outputFile);
+		this.#outputFiles.delete(outputFile);
 	}
 }
+
+Object.defineProperties(SourceFile.prototype, {
+	javaScriptFiles: descriptors.publicProperty,
+	declarationFiles: descriptors.publicProperty,
+	sourceMapFiles: descriptors.publicProperty,
+	outputFiles: descriptors.publicProperty,
+});
 
 /**
  * Information about a `tsc` output file.
  */
-export class OutputFile {
+class OutputFile {
+	#sourceFile?: SourceFile;
+	readonly type: OutputFileType;
+
+	get sourceFile () {
+		assert(this.#sourceFile, 'OutputFile must be initialized first');
+		return this.#sourceFile;
+	}
+
 	get [Symbol.toStringTag] () {
 		return OutputFile.name;
 	}
 
-	/**
-	 * @internal
-	 * @param sourceFile Absolute path to the original TypeScript file.
-	 */
-	constructor (readonly sourceFile: string) {
-		Object.defineProperty(this, 'sourceFile', descriptors.readonlyProperty);
+	/** @internal */
+	constructor (readonly path: string) {
+		let type: OutputFileType = 'unknown';
+
+		if (/\.[cm]?js$/i.test(path)) {
+			type = 'js';
+		} else if (/\.d\.[cm]?ts$/i.test(path)) {
+			type = 'dts';
+		} else if (/\.map$/i.test(path)) {
+			type = 'map';
+		}
+
+		this.type = type;
+
+		Object.defineProperties(this, {
+			path: descriptors.readonlyProperty,
+			type: descriptors.readonlyProperty,
+		});
+	}
+
+	/** @internal */
+	_setSourceFile (sourceFile: SourceFile) {
+		this.#sourceFile?._deleteOutputFile(this);
+		this.#sourceFile = sourceFile;
 	}
 }
+
+Object.defineProperty(
+	OutputFile.prototype,
+	'sourceFile',
+	descriptors.publicProperty,
+);
 
 function findConfig (projectPath: string, preferences: Preferences) {
 	projectPath = path.resolve(projectPath);
@@ -92,16 +158,16 @@ function findConfig (projectPath: string, preferences: Preferences) {
  * Maps `tsc` source/output files via the TypeScript api.
  */
 export class RemapTsc {
-	private readonly _sourceFiles = new PathMap<SourceFile>();
-	private readonly _outputFiles = new PathMap<OutputFile>();
-	private readonly _preferences: Preferences;
+	readonly #sourceFiles = new PathMap<SourceFile>();
+	readonly #outputFiles = new PathMap<OutputFile>();
+	readonly #preferences: Preferences;
 
 	get sourceFiles (): ReadonlyPathMap<SourceFile> {
-		return this._sourceFiles;
+		return this.#sourceFiles;
 	}
 
 	get outputFiles (): ReadonlyPathMap<OutputFile> {
-		return this._outputFiles;
+		return this.#outputFiles;
 	}
 
 	get [Symbol.toStringTag] () {
@@ -109,21 +175,15 @@ export class RemapTsc {
 	}
 
 	constructor (options: Options = {}) {
-		this._preferences = getPreferences(options);
-
-		Object.defineProperties(this, {
-			_sourceFiles: descriptors.privateReadonlyProperty,
-			_outputFiles: descriptors.privateReadonlyProperty,
-			_preferences: descriptors.privateReadonlyProperty,
-		});
+		this.#preferences = getPreferences(options);
 	}
 
 	/**
 	 * Delete all source and output files.
 	 */
 	clear () {
-		this._sourceFiles.clear();
-		this._outputFiles.clear();
+		this.#sourceFiles.clear();
+		this.#outputFiles.clear();
 	}
 
 	/**
@@ -134,12 +194,12 @@ export class RemapTsc {
 	 */
 	loadConfig (projectPath: string) {
 		const configPath = normalizeForTypeScript(
-			findConfig(projectPath, this._preferences),
+			findConfig(projectPath, this.#preferences),
 		);
 
 		const configFile = ts.readConfigFile(
 			configPath,
-			this._preferences.host.parseConfig.readFile,
+			this.#preferences.host.parseConfig.readFile,
 		);
 
 		if (configFile.error) {
@@ -147,14 +207,14 @@ export class RemapTsc {
 				'Reading the tsconfig failed.',
 				ts.formatDiagnostics(
 					[configFile.error],
-					this._preferences.host.formatDiagnostics,
+					this.#preferences.host.formatDiagnostics,
 				),
 			);
 		}
 
 		const commandLine = ts.parseJsonConfigFileContent(
 			configFile.config,
-			this._preferences.host.parseConfig,
+			this.#preferences.host.parseConfig,
 			path.dirname(configPath),
 			undefined,
 			configPath,
@@ -165,14 +225,14 @@ export class RemapTsc {
 				'Parsing the tsconfig failed.',
 				ts.formatDiagnostics(
 					commandLine.errors,
-					this._preferences.host.formatDiagnostics,
+					this.#preferences.host.formatDiagnostics,
 				),
 			);
 		}
 
 		validateCommandLine(commandLine);
 
-		if (this._preferences.forceEmit) {
+		if (this.#preferences.forceEmit) {
 			commandLine.options.noEmit = false;
 			commandLine.options.emitDeclarationOnly = false;
 		}
@@ -190,24 +250,24 @@ export class RemapTsc {
 		}
 
 		for (const fileName of commandLine.fileNames) {
-			validateFile(fileName, effectiveRoot, this._preferences);
+			validateFile(fileName, effectiveRoot, this.#preferences);
 
 			if (commandLine.options.noEmit) {
 				continue;
 			}
 
-			this._addMapping(
+			this.#addMapping(
 				path.normalize(fileName),
 				ts.getOutputFileNames(
 					commandLine,
 					fileName,
-					!this._preferences.host.parseConfig.useCaseSensitiveFileNames,
+					!this.#preferences.host.parseConfig.useCaseSensitiveFileNames,
 				).map((file) => path.normalize(file)),
 			);
 		}
 	}
 
-	private _addMapping (input: string, outputs: readonly string[]) {
+	#addMapping (input: string, outputs: readonly string[]) {
 		if (outputs.length === 0) {
 			return;
 		}
@@ -219,17 +279,18 @@ export class RemapTsc {
 			);
 		}
 
-		const oldSourceFile = this._sourceFiles.get(input);
+		const sourceFile
+			= this.#sourceFiles.get(input) ?? new SourceFile(input);
 
-		if (oldSourceFile !== undefined) {
-			outputs = [...oldSourceFile.outputFiles, ...outputs];
-		}
+		const outputFiles = outputs.map(
+			(output) => this.#outputFiles.get(output) ?? new OutputFile(output),
+		);
 
-		const sourceFile = new SourceFile(outputs);
-		this._sourceFiles.set(input, sourceFile);
+		sourceFile._addOutputFiles(outputFiles);
+		this.#sourceFiles.set(sourceFile.path, sourceFile);
 
-		for (const outputFile of sourceFile.outputFiles) {
-			this._outputFiles.set(outputFile, new OutputFile(input));
+		for (const file of outputFiles) {
+			this.#outputFiles.set(file.path, file);
 		}
 	}
 }
@@ -239,6 +300,8 @@ Object.defineProperties(RemapTsc.prototype, {
 	outputFiles: descriptors.publicProperty,
 });
 
+export default RemapTsc;
+export type { SourceFile, OutputFile };
 export { RemapTscError } from './errors.js';
 
 export type {
@@ -246,9 +309,4 @@ export type {
 	Options as TscRemapOptions,
 } from './options.js';
 
-export type {
-	PathMap,
-	PathSet,
-	ReadonlyPathMap,
-	ReadonlyPathSet,
-} from './path.js';
+export type { PathMap, ReadonlyPathMap } from './path.js';
