@@ -11,7 +11,7 @@ const data = new RemapTsc();
 //     └╴ build
 //        └╴ index.js
 
-data.loadConfig('src');
+data.loadConfig('.');
 
 // Map source to output.
 console.log(data.sourceFiles.get('src/index.ts'));
