@@ -32,12 +32,12 @@ jobs:
           pnpm --version
 
       - name: Set pnpm store-dir
-        run: pnpm config set store-dir ~/.pnpm-store
+        run: pnpm config set store-dir .pnpm-store
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: ~/.pnpm-store
+          path: .pnpm-store
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
@@ -73,12 +73,12 @@ jobs:
           pnpm --version
 
       - name: Set pnpm store-dir
-        run: pnpm config set store-dir ~/.pnpm-store
+        run: pnpm config set store-dir .pnpm-store
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: ~/.pnpm-store
+          path: .pnpm-store
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
@@ -124,12 +124,12 @@ jobs:
           pnpm --version
 
       - name: Set pnpm store-dir
-        run: pnpm config set store-dir ~/.pnpm-store
+        run: pnpm config set store-dir .pnpm-store
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: ~/.pnpm-store
+          path: .pnpm-store
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
