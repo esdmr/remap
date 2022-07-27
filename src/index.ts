@@ -62,6 +62,7 @@ class SourceFile {
 
 				case 'map':
 					this.#sourceMapFiles.add(file);
+					/* c8 ignore next */
 					break;
 
 				default:
