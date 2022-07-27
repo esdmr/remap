@@ -27,7 +27,7 @@ const buildOptions = {
 	watch: shouldWatch,
 	bundle: true,
 	minify: !isDev,
-	keepNames: !isDev,
+	keepNames: true,
 	minifySyntax: isDev,
 	minifyWhitespace: isDev,
 	sourcemap: true,
