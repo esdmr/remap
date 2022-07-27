@@ -6,7 +6,8 @@
     "outDir": "../build",
     "rootDir": ".",
     "emitDeclarationOnly": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "stripInternal": true
   },
   "include": ["**/*"]
 }

@@ -225,38 +225,36 @@ async function runTsc (testCase: TestCase, dir: string) {
 }
 
 function checkResolution (t: Tap.Test, options: CheckResolutionOptions) {
-	const actualSourceFiles = new Map<string, source.SourceFile>();
-	const actualOutputFiles = new Map<string, source.OutputFile>();
+	const actualSourceFiles = new Map<string, readonly string[]>();
+	const actualOutputFiles = new Map<string, string>();
 
 	for (const [key, value] of options.data.sourceFiles) {
 		actualSourceFiles.set(
 			options.fixUpActual(key),
-			new source.SourceFile(
-				[...value.outputFiles].map((file) => options.fixUpActual(file)),
-			),
+			[...value.outputFiles].map((file) => options.fixUpActual(file.path)),
 		);
 	}
 
 	for (const [key, value] of options.data.outputFiles) {
 		actualOutputFiles.set(
 			options.fixUpActual(key),
-			new source.OutputFile(options.fixUpActual(value.sourceFile)),
+			options.fixUpActual(value.sourceFile.path),
 		);
 	}
 
-	const expectedSourceFiles = new Map<string, source.SourceFile>();
-	const expectedOutputFiles = new Map<string, source.OutputFile>();
+	const expectedSourceFiles = new Map<string, readonly string[]>();
+	const expectedOutputFiles = new Map<string, string>();
 
 	for (const [key, value] of Object.entries(options.testCase.files!)) {
-		const sourceFile = new source.SourceFile(
+		expectedSourceFiles.set(
+			options.fixUpExpected(key),
 			value.map((file) => options.fixUpExpected(file)),
 		);
-		expectedSourceFiles.set(options.fixUpExpected(key), sourceFile);
 
-		for (const outputFile of sourceFile.outputFiles) {
+		for (const output of value) {
 			expectedOutputFiles.set(
-				outputFile,
-				new source.OutputFile(options.fixUpExpected(key)),
+				options.fixUpExpected(output),
+				options.fixUpExpected(key),
 			);
 		}
 	}
