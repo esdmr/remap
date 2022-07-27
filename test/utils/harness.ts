@@ -252,7 +252,10 @@ function checkResolution (t: Tap.Test, options: CheckResolutionOptions) {
 		);
 
 		for (const output of value) {
-			expectedOutputFiles.set(output, options.fixUpExpected(key));
+			expectedOutputFiles.set(
+				options.fixUpExpected(output),
+				options.fixUpExpected(key),
+			);
 		}
 	}
 
