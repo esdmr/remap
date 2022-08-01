@@ -2,46 +2,6 @@ name: Extended CI
 on: workflow_dispatch
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
-        with:
-          node-version: "16"
-
-      - name: Setup pnpm
-        run: |-
-          corepack enable
-          pnpm --version
-
-      - name: Set pnpm store-dir
-        run: pnpm config set store-dir .pnpm-store
-
-      - name: Cache pnpm modules
-        uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
-        with:
-          path: .pnpm-store
-          key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.OS }}-pnpm-current
-
-      - name: Install packages
-        run: pnpm install
-
-      - name: Build
-        run: pnpm run build
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: build
-          path: build
-
   test:
     name: Extended Test
     strategy:
@@ -80,13 +40,11 @@ jobs:
       - name: Install packages
         run: pnpm install
 
-      - uses: actions/download-artifact@master
-        with:
-          name: build
-          path: build
+      - name: Build
+        run: pnpm recursive --workspace-concurrency 2 run build
 
       - name: Run extended tests
-        run: pnpm run test --save-fixture
+        run: pnpm recursive --workspace-concurrency 1 run test --save-fixture
         env:
           TEST_DISABLE_VFS: "1"
           TEST_ENABLE_TSC: "1"

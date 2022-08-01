@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if test -z "$GITHUB_PATH"; then
+	echo "This script only works on GitHub CI." >&2
+	exit 1
+fi
+
+# From https://docs.codecov.com/docs/codecov-uploader
+mkdir .codecov-uploader
+cd .codecov-uploader
+
+# Add CodeCov keys to gpg keyring
+curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step
+
+# Download CodeCov uploader and shasum
+curl -Os https://uploader.codecov.io/latest/linux/codecov
+curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+
+# Check integrity
+gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+shasum -a 256 -c codecov.SHA256SUM
+
+# Save to PATH
+chmod +x codecov
+echo $(pwd) >> $GITHUB_PATH
