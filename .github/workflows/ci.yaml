@@ -47,10 +47,10 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm recursive --workspace-concurrency 2 run build
+        run: pnpm run build
 
       - name: Run linter
-        run: pnpm recursive --workspace-concurrency 2 run lint
+        run: pnpm run lint
 
   test:
     strategy:
@@ -102,19 +102,19 @@ jobs:
         run: pnpm audit
 
       - name: Build
-        run: pnpm recursive --workspace-concurrency 2 run build
+        run: pnpm run build
 
       - name: Run tests (without coverage)
         if: matrix.node != '16' || matrix.os != 'ubuntu-latest'
-        run: pnpm recursive --workspace-concurrency 1 run test
+        run: pnpm run test
 
       - name: Run tests (with coverage)
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm recursive --workspace-concurrency 1 run test:coverage
+        run: pnpm run test:coverage
 
       - name: Export coverage report
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm recursive --workspace-concurrency 2 run test:coverage-lcov
+        run: pnpm run test:coverage-lcov
 
       - name: Upload coverage
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'

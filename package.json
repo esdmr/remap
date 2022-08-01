@@ -2,18 +2,18 @@
   "private": "true",
   "type": "module",
   "scripts": {
-    "build": "pnpm recursive run build",
-    "build:dev": "pnpm recursive run build:dev",
+    "build": "pnpm recursive --workspace-concurrency=1 run build",
+    "build:dev": "pnpm recursive --workspace-concurrency=1 run build:dev",
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "clean": "rimraf \"**/build\" \"**/.nyc_output\" \"**/coverage\" \"**/docs\"",
     "lint": "pnpm recursive run lint",
     "lint:fix": "pnpm recursive run lint:fix",
-    "test": "pnpm recursive run test",
-    "test:coverage": "pnpm recursive run test:coverage",
+    "test": "pnpm recursive --workspace-concurrency=1 run test",
+    "test:coverage": "pnpm recursive  --workspace-concurrency=1 run test:coverage",
     "test:coverage-html": "pnpm recursive run test:coverage-html",
     "test:coverage-lcov": "pnpm recursive run test:coverage-lcov",
-    "watch": "pnpm recursive run watch"
+    "watch": "pnpm recursive --workspace-concurrency=Infinity run watch"
   },
   "devDependencies": {
     "@changesets/cli": "2.23.1",
