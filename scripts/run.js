@@ -69,7 +69,7 @@ function parseArgv () {
 async function areMetaFilesChanged () {
 	const rootDir = fileURLToPath(new URL('..', import.meta.url));
 
-	const diff = await execaCommand('git diff --name-only main', {
+	const diff = await execaCommand('git diff --name-only origin/main', {
 		cwd: rootDir,
 	});
 
