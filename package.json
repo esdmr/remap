@@ -22,7 +22,7 @@
     "ci-info": "3.3.2",
     "execa": "6.1.0",
     "rimraf": "3.0.2",
-    "xo": "0.50.0"
+    "xo": "0.51.0"
   },
   "packageManager": "pnpm@7.5.0",
   "engines": {
