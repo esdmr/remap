@@ -12,13 +12,17 @@ importers:
     specifiers:
       '@changesets/cli': 2.23.1
       '@types/node': ^14.0.0
+      ci-info: 3.3.2
       execa: 6.1.0
       rimraf: 3.0.2
+      xo: 0.50.0
     devDependencies:
       '@changesets/cli': 2.23.1
       '@types/node': 14.18.21
+      ci-info: 3.3.2
       execa: 6.1.0
       rimraf: 3.0.2
+      xo: 0.50.0
 
   packages/remap-tsc:
     specifiers:
@@ -33,6 +37,7 @@ importers:
       readdirp: 3.6.0
       semver: 7.3.7
       tap: 16.3.0
+      test-dependency: workspace:*
       tsconfig-type: 1.25.0
       typedoc: 0.23.8
       typescript: 4.7.4
@@ -49,10 +54,23 @@ importers:
       readdirp: 3.6.0
       semver: 7.3.7
       tap: 16.3.0_typescript@4.7.4
+      test-dependency: link:../test-dependency
       tsconfig-type: 1.25.0
       typedoc: 0.23.8_typescript@4.7.4
       typescript: 4.7.4
       xo: 0.50.0
+
+  packages/test-dependency:
+    specifiers: {}
+
+  packages/test-dependent:
+    specifiers:
+      '@esdmr/remap-tsc': workspace:*
+    dependencies:
+      '@esdmr/remap-tsc': link:../remap-tsc
+
+  packages/test-misc:
+    specifiers: {}
 
 packages:
 

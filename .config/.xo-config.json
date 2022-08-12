@@ -27,7 +27,8 @@
     "object-curly-spacing": ["error", "always"],
     "space-before-function-paren": ["error", "always"],
     "unicorn/prefer-json-parse-buffer": ["off"],
-    "import/extensions": ["off"]
+    "import/extensions": ["off"],
+    "n/file-extension-in-import": ["off"]
   },
   "overrides": [
     {

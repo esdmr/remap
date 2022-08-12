@@ -2,24 +2,27 @@
   "private": "true",
   "type": "module",
   "scripts": {
-    "build": "pnpm recursive --workspace-concurrency=1 run build",
-    "build:dev": "pnpm recursive --workspace-concurrency=1 run build:dev",
+    "build": "node scripts/run.js run [ --filter '...[main]...' ] --workspace-concurrency=1 build",
+    "build:dev": "node scripts/run.js run [ --filter '...[main]...' ] --workspace-concurrency=1 build:dev",
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "clean": "rimraf \"**/build\" \"**/.nyc_output\" \"**/coverage\" \"**/docs\"",
-    "lint": "pnpm recursive run lint",
-    "lint:fix": "pnpm recursive run lint:fix",
-    "test": "pnpm recursive --workspace-concurrency=1 run test",
-    "test:coverage": "pnpm recursive  --workspace-concurrency=1 run test:coverage",
-    "test:coverage-html": "pnpm recursive run test:coverage-html",
-    "test:coverage-lcov": "pnpm recursive run test:coverage-lcov",
-    "watch": "pnpm recursive --workspace-concurrency=Infinity run watch"
+    "lint": "xo && node scripts/run.js run [ --filter '[main]...' ] lint",
+    "lint:fix": "xo --fix && node scripts/run.js run [ --filter '[main]...' ] lint:fix",
+    "test": "node scripts/run.js run [ --filter '[main]...' ] test",
+    "test:extended": "node scripts/run.js run [ --filter '[main]...' ] --no-bail test:extended",
+    "test:coverage": "node scripts/run.js run [ --filter '[main]...' ] test:coverage",
+    "test:coverage-html": "node scripts/run.js run [ --filter '[main]...' ] test:coverage-html",
+    "test:coverage-lcov": "node scripts/run.js run [ --filter '[main]...' ] test:coverage-lcov",
+    "watch": "node scripts/run.js run [ --filter '...[main]...' ] --workspace-concurrency=Infinity watch"
   },
   "devDependencies": {
     "@changesets/cli": "2.23.1",
     "@types/node": "14.18.21",
+    "ci-info": "3.3.2",
     "execa": "6.1.0",
-    "rimraf": "3.0.2"
+    "rimraf": "3.0.2",
+    "xo": "0.50.0"
   },
   "packageManager": "pnpm@7.5.0",
   "engines": {

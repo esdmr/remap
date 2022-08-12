@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { existsSync } from 'node:fs';
-import {readdir} from 'node:fs/promises';
+import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
-import {execa} from 'execa';
+import { execa } from 'execa';
 
 const packagesDir = 'packages';
 
@@ -19,8 +19,10 @@ for (const packageName of await readdir(packagesDir)) {
 
 	await execa('codecov', [
 		...process.argv.slice(2),
-		'-f', lcov,
-		'-F', packageName,
+		'-f',
+		lcov,
+		'-F',
+		packageName,
 	], {
 		stdio: 'inherit',
 	});

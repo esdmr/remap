@@ -41,6 +41,7 @@
     "prepack": "node scripts/prepack.js",
     "postpack": "node scripts/postpack.js",
     "test": "tap",
+    "test:extended": "node scripts/extended-test.js",
     "test:coverage": "c8 tap",
     "test:coverage-html": "c8 report -r html",
     "test:coverage-lcov": "c8 report -r lcov",
