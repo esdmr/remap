@@ -24,6 +24,9 @@ jobs:
         with:
           fetch-depth: 2
 
+      - if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
+        run: git remote set-branches --add origin main && git fetch
+
       - name: Setup Node.js
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
         with:
