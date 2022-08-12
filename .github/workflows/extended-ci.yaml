@@ -3,7 +3,6 @@ on: workflow_dispatch
 
 jobs:
   test:
-    name: Extended Test
     strategy:
       fail-fast: false
       matrix:
@@ -11,6 +10,7 @@ jobs:
           - ubuntu-latest
           - windows-latest
     runs-on: ${{ matrix.os }}
+    name: Extended Test / ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -44,7 +44,4 @@ jobs:
         run: pnpm run build
 
       - name: Run extended tests
-        run: pnpm run test --save-fixture
-        env:
-          TEST_DISABLE_VFS: "1"
-          TEST_ENABLE_TSC: "1"
+        run: pnpm run test:extended
