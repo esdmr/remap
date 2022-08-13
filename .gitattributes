@@ -203,7 +203,7 @@ Procfile          text
 
 # Project specific
 **/tap-snapshots/**  linguist-generated
-pnpm-lock.yaml    linguist-generated
-.changeset/**     linguist-documentation
-.github/**        linguist-documentation
-.taprc            linguist-language=yaml
+pnpm-lock.yaml       linguist-generated
+.changeset/**        linguist-documentation
+.github/**           linguist-documentation
+.taprc               linguist-language=yaml
