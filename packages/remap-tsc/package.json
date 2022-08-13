@@ -33,8 +33,8 @@
     "!build/examples/**/*"
   ],
   "scripts": {
-    "build": "node scripts/build.js --tsc",
-    "build:dev": "node scripts/build.js --tsc --dev",
+    "build": "node scripts/build.js",
+    "build:dev": "node scripts/build.js --dev",
     "docs": "typedoc src/index.ts",
     "lint": "xo",
     "lint:fix": "xo --fix",
@@ -45,7 +45,7 @@
     "test:coverage": "c8 tap",
     "test:coverage-html": "c8 report -r html",
     "test:coverage-lcov": "c8 report -r lcov",
-    "watch": "node scripts/build.js --tsc --watch"
+    "watch": "node scripts/build.js --watch"
   },
   "devDependencies": {
     "@types/mock-fs": "4.13.1",
