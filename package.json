@@ -12,8 +12,8 @@
     "test": "node scripts/run.js run [ --filter '[origin/main]...' ] test",
     "test:extended": "node scripts/run.js run [ --filter '[origin/main]...' ] --no-bail test:extended",
     "test:coverage": "node scripts/run.js run [ --filter '[origin/main]...' ] test:coverage",
-    "test:coverage-html": "node scripts/run.js run [ --filter '[origin/main]...' ] test:coverage-html",
-    "test:coverage-lcov": "node scripts/run.js run [ --filter '[origin/main]...' ] test:coverage-lcov",
+    "test:coverage-html": "node scripts/run.js run [ --filter '[origin/main]' ] test:coverage-html",
+    "test:coverage-lcov": "node scripts/run.js run [ --filter '[origin/main]' ] test:coverage-lcov",
     "watch": "node scripts/run.js run [ --filter '...[origin/main]...' ] --workspace-concurrency=Infinity watch"
   },
   "devDependencies": {
