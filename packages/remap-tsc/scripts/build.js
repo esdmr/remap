@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import assert from 'node:assert';
 import { build } from 'esbuild';
 import { execa } from 'execa';
+import isPnpm from 'is-pnpm';
+
+assert(isPnpm, 'This script must be run by pnpm');
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
 	console.log(`\
-Usage: node scripts/build-server.js [options]
+Usage: pnpm build [options]
 
 Options:
 --watch  Watch for changes
 --dev    Disable identifier minification`);
+	process.exit();
 }
 
 const shouldWatch = process.argv.includes('--watch');

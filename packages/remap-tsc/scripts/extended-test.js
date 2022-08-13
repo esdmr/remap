@@ -1,7 +1,11 @@
 #!/usr/bin/env node
+import assert from 'node:assert';
 import { execaCommand } from 'execa';
+import isPnpm from 'is-pnpm';
 
-await execaCommand('pnpm --filter @esdmr/remap-tsc exec tap --save-fixture', {
+assert(isPnpm, 'This script must be run by pnpm');
+
+await execaCommand('tap --save-fixture', {
 	env: {
 		TEST_DISABLE_VFS: '1',
 		TEST_ENABLE_TSC: '1',

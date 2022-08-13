@@ -55,6 +55,7 @@
     "c8": "7.12.0",
     "esbuild": "0.14.48",
     "execa": "6.1.0",
+    "is-pnpm": "workspace:^1.0.0",
     "mock-fs": "5.1.2",
     "readdirp": "3.6.0",
     "semver": "7.3.7",
