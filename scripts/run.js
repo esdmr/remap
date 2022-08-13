@@ -7,6 +7,11 @@ import ci from 'ci-info';
 const [command, partialArgv, argv] = parseArgv();
 const isPartial = Boolean(process.env.DEBUG_PARTIAL) || ((ci.isPR ?? false) && !(await areMetaFilesChanged()));
 
+partialArgv.push(
+	'--test-pattern=packages/*/test/**',
+	'--changed-files-ignore-pattern=**/README.md',
+);
+
 switch (command) {
 	case 'run':
 		argv.unshift('recursive', 'run');
@@ -55,7 +60,7 @@ function parseArgv () {
 	const partialEnd = argv.indexOf(']', commandEnd);
 
 	if (commandEnd < 0 || partialEnd < 0) {
-		console.error('Usage: ./scripts/run.js <command> <arg> [ <partial-only args...> ] <normal args...>');
+		console.error('Usage: ./scripts/run.js <command> "[" <partial-only args...> "]" <normal args...>');
 		process.exit(1);
 	}
 
