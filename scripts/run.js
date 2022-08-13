@@ -2,10 +2,12 @@
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { execa, execaCommand } from 'execa';
-import ci from 'ci-info';
+import shellEscape from 'shell-escape';
 
 const [command, partialArgv, argv] = parseArgv();
-const isPartial = Boolean(process.env.DEBUG_PARTIAL) || ((ci.isPR ?? false) && !(await areMetaFilesChanged()));
+const isPartial = process.env.GITHUB_PR_TO_MAIN !== 'false' && !(await areMetaFilesChanged());
+
+console.log('Running scripts in', isPartial ? 'partial' : 'complete', 'mode.');
 
 partialArgv.push(
 	'--test-pattern=packages/*/test/**',
@@ -26,16 +28,12 @@ switch (command) {
 
 try {
 	if (isPartial) {
-		await execa('pnpm', [
+		await runPnpm([
 			...partialArgv,
 			...argv,
-		], {
-			stdio: 'inherit',
-		});
+		]);
 	} else {
-		await execa('pnpm', argv, {
-			stdio: 'inherit',
-		});
+		await runPnpm(argv);
 	}
 } catch (error) {
 	process.exitCode = 1;
@@ -78,15 +76,17 @@ async function areMetaFilesChanged () {
 		cwd: rootDir,
 	});
 
-	if (diff.stdout) {
-		const changedFiles = diff.stdout.split('\n');
+	return diff.stdout.split('\n')
+		.some((file) => file.startsWith('.config/'));
+}
 
-		for (const changedFile of changedFiles) {
-			if (changedFile.startsWith('.config/')) {
-				return true;
-			}
-		}
-	}
+/**
+ * @param {string[]} argv
+ */
+async function runPnpm (argv) {
+	console.log('>', shellEscape(['pnpm', ...argv]));
 
-	return false;
+	return execa('pnpm', argv, {
+		stdio: 'inherit',
+	});
 }

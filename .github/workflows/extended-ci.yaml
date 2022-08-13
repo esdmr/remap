@@ -1,6 +1,9 @@
 name: Extended CI
 on: workflow_dispatch
 
+env:
+  GITHUB_PR_TO_MAIN: false
+
 jobs:
   test:
     strategy:

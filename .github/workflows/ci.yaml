@@ -13,6 +13,9 @@ on:
       - main
       - releases/**
 
+env:
+  GITHUB_PR_TO_MAIN: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
+
 jobs:
   lint:
     name: Lint

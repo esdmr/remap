@@ -12,16 +12,16 @@ importers:
     specifiers:
       '@changesets/cli': 2.23.1
       '@types/node': ^14.0.0
-      ci-info: 3.3.2
       execa: 6.1.0
       rimraf: 3.0.2
+      shell-escape: 0.2.0
       xo: 0.51.0
     devDependencies:
       '@changesets/cli': 2.23.1
       '@types/node': 14.18.21
-      ci-info: 3.3.2
       execa: 6.1.0
       rimraf: 3.0.2
+      shell-escape: 0.2.0
       xo: 0.51.0
 
   packages/is-pnpm:
@@ -3903,6 +3903,10 @@ packages:
   /shebang-regex/3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+    dev: true
+
+  /shell-escape/0.2.0:
+    resolution: {integrity: sha512-uRRBT2MfEOyxuECseCZd28jC1AJ8hmqqneWQ4VWUTgCAFvb3wKU1jLqj6egC4Exrr88ogg3dp+zroH4wJuaXzw==}
     dev: true
 
   /shiki/0.10.1:
