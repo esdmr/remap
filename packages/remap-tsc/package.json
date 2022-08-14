@@ -41,10 +41,10 @@
     "prepack": "node scripts/prepack.js",
     "postpack": "node scripts/postpack.js",
     "test": "tap",
-    "test:extended": "node scripts/extended-test.js",
     "test:coverage": "c8 tap",
     "test:coverage-html": "c8 report -r html",
     "test:coverage-lcov": "c8 report -r lcov",
+    "test:extended": "node scripts/extended-test.js",
     "watch": "node scripts/build.js --watch"
   },
   "devDependencies": {
@@ -55,9 +55,9 @@
     "c8": "7.12.0",
     "esbuild": "0.14.48",
     "execa": "6.1.0",
-    "is-pnpm": "workspace:^1.0.0",
     "mock-fs": "5.1.2",
     "readdirp": "3.6.0",
+    "scripts": "workspace:^1.0.0",
     "semver": "7.3.7",
     "tap": "16.3.0",
     "tsconfig-type": "1.25.0",

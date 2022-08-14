@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert';
 import { build } from 'esbuild';
 import { execa } from 'execa';
-import isPnpm from 'is-pnpm';
+import isPnpm from 'scripts/is-pnpm';
 
 assert(isPnpm, 'This script must be run by pnpm');
 
@@ -55,13 +55,13 @@ const cjsResult = await build({
 	format: 'cjs',
 });
 
-const options = ['exec', 'tsc', '-b'];
+const options = ['-b'];
 
 if (shouldWatch) {
 	options.push('-w', '--preserveWatchOutput');
 }
 
-const tscResult = execa('pnpm', options, {
+const tscResult = execa('tsc', options, {
 	stdio: 'inherit',
 });
 

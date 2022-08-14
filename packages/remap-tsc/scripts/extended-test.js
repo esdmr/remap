@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert';
 import { execaCommand } from 'execa';
-import isPnpm from 'is-pnpm';
+import isPnpm from 'scripts/is-pnpm';
 
 assert(isPnpm, 'This script must be run by pnpm');
 

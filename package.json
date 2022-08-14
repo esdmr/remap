@@ -1,28 +1,25 @@
 {
-  "private": "true",
+  "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/run.js run [ --filter '...[origin/main]...' ] --workspace-concurrency=1 build",
-    "build:dev": "node scripts/run.js run [ --filter '...[origin/main]...' ] --workspace-concurrency=1 build:dev",
+    "build": "partial run [ --filter '...[origin/main]...' ] --workspace-concurrency=1 build",
+    "build:dev": "partial run [ --filter '...[origin/main]...' ] --workspace-concurrency=1 build:dev",
     "changeset": "changeset",
     "changeset:version": "changeset version",
     "clean": "rimraf \"**/build\" \"**/.nyc_output\" \"**/coverage\" \"**/docs\"",
-    "lint": "xo && node scripts/run.js run [ --filter '...[origin/main]' ] lint",
-    "lint:fix": "xo --fix && node scripts/run.js run [ --filter '...[origin/main]' ] lint:fix",
-    "test": "node scripts/run.js run [ --filter '...[origin/main]' ] test",
-    "test:extended": "node scripts/run.js run [ --filter '...[origin/main]' ] --no-bail test:extended",
-    "test:coverage": "node scripts/run.js run [ --filter '...[origin/main]' ] test:coverage",
-    "test:coverage-html": "node scripts/run.js run [ --filter '[origin/main]' ] test:coverage-html",
-    "test:coverage-lcov": "node scripts/run.js run [ --filter '[origin/main]' ] test:coverage-lcov",
-    "watch": "node scripts/run.js run [ --filter '...[origin/main]...' ] --workspace-concurrency=Infinity watch"
+    "lint": "partial run [ --filter '...[origin/main]' ] lint",
+    "lint:fix": "partial run [ --filter '...[origin/main]' ] lint:fix",
+    "test": "partial run [ --filter '...[origin/main]' ] test",
+    "test:coverage": "partial run [ --filter '...[origin/main]' ] test:coverage",
+    "test:coverage-html": "partial run [ --filter '[origin/main]' ] test:coverage-html",
+    "test:coverage-lcov": "partial run [ --filter '[origin/main]' ] test:coverage-lcov",
+    "test:extended": "partial run [ --filter '...[origin/main]' ] --no-bail test:extended",
+    "watch": "partial run [ --filter '...[origin/main]...' ] --workspace-concurrency=Infinity watch"
   },
   "devDependencies": {
     "@changesets/cli": "2.23.1",
-    "@types/node": "14.18.21",
-    "execa": "6.1.0",
     "rimraf": "3.0.2",
-    "shell-escape": "0.2.0",
-    "xo": "0.51.0"
+    "scripts": "workspace:1.0.0"
   },
   "packageManager": "pnpm@7.5.0",
   "engines": {

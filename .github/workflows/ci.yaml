@@ -102,12 +102,12 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
 
-      - name: Setup CodeCov uploader
-        if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: bash scripts/install-codecov
-
       - name: Install packages
         run: pnpm install
+
+      - name: Setup CodeCov uploader
+        if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
+        run: pnpm exec install-codecov
 
       - name: Audit packages
         run: pnpm audit
@@ -129,4 +129,4 @@ jobs:
 
       - name: Upload coverage
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: node scripts/upload-coverage.js
+        run: pnpm exec upload-coverage
