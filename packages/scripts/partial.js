@@ -58,7 +58,7 @@ function parseArgv () {
 	const partialEnd = argv.indexOf(']', commandEnd);
 
 	if (commandEnd < 0 || partialEnd < 0) {
-		console.error('Usage: ./scripts/run.js <command> "[" <partial-only args...> "]" <normal args...>');
+		console.error('Usage: pnpm exec partial <command> "[" <partial-only args...> "]" <normal args...>');
 		process.exit(1);
 	}
 
