@@ -5,9 +5,13 @@
   "keywords": [
     "typescript"
   ],
-  "homepage": "https://github.com/esdmr/remap#readme",
+  "homepage": "https://github.com/esdmr/remap/tree/main/packages/remap-tsc#readme",
   "bugs": "https://github.com/esdmr/remap/issues",
-  "repository": "https://github.com/esdmr/remap",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/esdmr/remap.git",
+    "directory": "packages/remap-tsc"
+  },
   "license": "MIT",
   "author": "Saeed M Rad <esdmr0@gmail.com> (https://github.com/esdmr)",
   "sideEffects": false,
