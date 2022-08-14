@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./is-pnpm": "./is-pnpm.js",
+    "./is-pnpm": {
+      "types": "./build/is-pnpm.d.ts",
+      "default": "./is-pnpm.js"
+    },
     "./package.json": "./package.json"
   },
   "bin": {

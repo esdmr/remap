@@ -3,7 +3,8 @@
   "extends": "../../.config/tsconfig.json",
   "compilerOptions": {
     "checkJs": true,
-    "noEmit": true
+    "emitDeclarationOnly": true,
+    "outDir": "build"
   },
   "include": ["**/*"]
 }
