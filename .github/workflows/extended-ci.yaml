@@ -45,7 +45,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build
+        run: pnpm exec nx run-many --target=build
 
       - name: Run extended tests
-        run: pnpm run test:extended
+        run: pnpm exec nx run-many --target=test:extended

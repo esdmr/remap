@@ -52,10 +52,10 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build
+        run: pnpm exec nx run-many --target=build
 
       - name: Run linter
-        run: pnpm run lint
+        run: pnpm exec nx run-many --target=lint
 
   test:
     strategy:
@@ -110,19 +110,19 @@ jobs:
         run: pnpm audit
 
       - name: Build
-        run: pnpm run build
+        run: pnpm exec nx run-many --target=build
 
       - name: Run tests (without coverage)
         if: matrix.node != '16' || matrix.os != 'ubuntu-latest'
-        run: pnpm run test
+        run: pnpm exec nx run-many --target=test
 
       - name: Run tests (with coverage)
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm run test:coverage
+        run: pnpm exec nx run-many --target=test:coverage
 
       - name: Export coverage report
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm run coverage-report
+        run: pnpm exec nx run-many --target=coverage-report
 
       - name: Upload coverage
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
