@@ -13,7 +13,7 @@
     "lint:fix": "run lint:fix",
     "test": "run test",
     "test:coverage": "run test:coverage",
-    "watch": "chokidar '**/*.ts' '**/*.js' '**/*.json' '**/*.yml' '**/*.yaml' -i '**/node_modules/**/*' -i 'packages/*/build/**/*' --silent -c 'clear && nx run-many --target=build'"
+    "watch": "chokidar '**/*.ts' '**/*.js' '**/*.json' '**/*.yml' '**/*.yaml' -i '**/node_modules/**/*' -i 'packages/*/build/**/*' -i '**/.nyc_output' -i '**/coverage/**/*' -i '**/docs/**/*' --silent -c 'clear && nx run-many --target=build'"
   },
   "devDependencies": {
     "@changesets/cli": "2.23.1",
