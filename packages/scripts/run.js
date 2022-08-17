@@ -49,8 +49,7 @@ try {
  * @returns {[string, string[]]}
  */
 function parseArgv () {
-	const argv = process.argv.slice(2);
-	const target = argv.shift();
+	const [target, ...argv] = process.argv.slice(2);
 
 	if (!target) {
 		console.error('Usage: pnpm exec run <target> [options] [arguments]');
