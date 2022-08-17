@@ -125,7 +125,7 @@ jobs:
 
       - name: Export coverage report
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm run test:coverage-lcov
+        run: pnpm run coverage-report
 
       - name: Upload coverage
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
