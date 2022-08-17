@@ -20,7 +20,8 @@
     "@changesets/cli": "2.23.1",
     "rimraf": "3.0.2",
     "scripts": "workspace:1.0.0",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "xo": "0.51.0"
   },
   "packageManager": "pnpm@7.5.0",
   "engines": {
