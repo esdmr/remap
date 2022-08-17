@@ -12,7 +12,6 @@
   },
   "bin": {
     "install-codecov": "install-codecov",
-    "run": "run.js",
     "upload-coverage": "upload-coverage.js"
   },
   "scripts": {
