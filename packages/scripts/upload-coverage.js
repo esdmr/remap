@@ -5,7 +5,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { execa } from 'execa';
 
-if (!process.env.GITHUB_PATH) {
+if (!process.env.GITHUB_CI) {
 	console.error('This script only works on GitHub CI.');
 	process.exit(1);
 }

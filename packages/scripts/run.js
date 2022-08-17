@@ -7,7 +7,7 @@ import isPnpm from './is-pnpm.js';
 assert(isPnpm, 'This script must be run by pnpm');
 
 const [target, argv] = parseArgv();
-const isPartial = process.env.GITHUB_PR_TO_MAIN !== 'false';
+const isPartial = !process.env.GITHUB_CI;
 
 console.log('Running', isPartial ? 'affected' : 'all', 'packages.');
 
