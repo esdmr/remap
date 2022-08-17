@@ -4,7 +4,7 @@ set -o pipefail
 set -o errexit
 
 if test -z "$GITHUB_PATH"; then
-	echo "This script only works on GitHub CI." >&2
+	echo "This script only works on CI." >&2
 	exit 1
 fi
 
