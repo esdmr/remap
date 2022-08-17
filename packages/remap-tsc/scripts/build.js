@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert';
 import { build } from 'esbuild';
 import { execa } from 'execa';
-import isPnpm from 'scripts/is-pnpm';
+import isPnpm from '@esdmr/scripts/is-pnpm';
 
 assert(isPnpm, 'This script must be run by pnpm');
 

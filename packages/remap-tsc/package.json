@@ -61,7 +61,7 @@
     "execa": "6.1.0",
     "mock-fs": "5.1.2",
     "readdirp": "3.6.0",
-    "scripts": "workspace:^1.0.0",
+    "@esdmr/scripts": "workspace:^1.0.0",
     "semver": "7.3.7",
     "tap": "16.3.0",
     "tsconfig-type": "1.25.0",

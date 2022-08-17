@@ -16,7 +16,7 @@ Check if the current script is running through `pnpm`. This way, `PATH` is
 populated with the binary files from dependencies.
 
 ```js
-import isPnpm from 'scripts/is-pnpm';
+import isPnpm from '@esdmr/scripts/is-pnpm';
 ```
 
 ## `partial`
