@@ -38,20 +38,18 @@
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "build:dev": "node scripts/build.js --dev",
+    "coverage-report": "c8 report -r lcov",
     "docs": "typedoc src/index.ts",
+    "extended-test": "node scripts/extended-test.js",
     "lint": "xo",
     "lint:fix": "xo --fix",
     "prepack": "node scripts/prepack.js",
     "postpack": "node scripts/postpack.js",
     "test": "tap",
-    "test:coverage": "c8 tap",
-    "test:coverage-html": "c8 report -r html",
-    "test:coverage-lcov": "c8 report -r lcov",
-    "test:extended": "node scripts/extended-test.js",
-    "watch": "node scripts/build.js --watch"
+    "test:coverage": "c8 tap"
   },
   "devDependencies": {
+    "@esdmr/scripts": "workspace:^1.0.0",
     "@types/mock-fs": "4.13.1",
     "@types/node": "14.18.21",
     "@types/semver": "7.3.10",
@@ -61,7 +59,6 @@
     "execa": "6.1.0",
     "mock-fs": "5.1.2",
     "readdirp": "3.6.0",
-    "@esdmr/scripts": "workspace:^1.0.0",
     "semver": "7.3.7",
     "tap": "16.3.0",
     "tsconfig-type": "1.25.0",
