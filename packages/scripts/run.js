@@ -14,7 +14,9 @@ console.log('Running', isPartial ? 'affected' : 'all', 'packages.');
 try {
 	if (isPartial) {
 		await execa('nx', [
-			'run-many',
+			'affected',
+			'--base=origin/main',
+			'--head=HEAD',
 			'--target=' + target,
 			...argv,
 		], {
@@ -22,9 +24,7 @@ try {
 		});
 	} else {
 		await execa('nx', [
-			'affected',
-			'--base=origin/main',
-			'--head=HEAD',
+			'run-many',
 			'--target=' + target,
 			...argv,
 		], {
