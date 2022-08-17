@@ -16,7 +16,6 @@ try {
 		await execa('nx', [
 			'affected',
 			'--base=origin/main',
-			'--head=HEAD',
 			'--target=' + target,
 			...argv,
 		], {
