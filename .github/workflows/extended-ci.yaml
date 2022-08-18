@@ -30,19 +30,14 @@ jobs:
           corepack enable
           pnpm --version
 
-      - name: Get pnpm store-dir
-        id: pnpmStore
-        run: |-
-          const {spawnSync} = require('child_process');
-          const path = String(spawnSync('pnpm', ['store', 'path']).stdout ?? '').trim();
-          console.log('pnpm store path:', path);
-          console.log(`::set-output name=path::${path}`);
-        shell: node {0}
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: ${{ steps.pnpmStore.outputs.path }}
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
