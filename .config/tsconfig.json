@@ -29,16 +29,5 @@
     "useDefineForClassFields": true,
     "useUnknownInCatchVariables": true
   },
-  "files": [],
-  "references": [
-    {
-      "path": "src"
-    },
-    {
-      "path": "test"
-    },
-    {
-      "path": "examples"
-    }
-  ]
+  "files": []
 }

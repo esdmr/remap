@@ -22,16 +22,16 @@ const options = {
 };
 
 console.log('pnpm install');
-await execaCommand('pnpm install --prod=false', options);
+await execaCommand('pnpm --filter @esdmr/remap-tsc install --prod=false', options);
 
-console.log('pnpm run build');
-await execaCommand('pnpm run build', options);
+console.log('run build');
+await execaCommand('nx run remap-tsc:build', options);
 
-console.log('pnpm run lint');
-await execaCommand('pnpm run lint', options);
+console.log('run lint');
+await execaCommand('nx run remap-tsc:lint', options);
 
-console.log('pnpm run test');
-await execaCommand('pnpm run test', options);
+console.log('run test');
+await execaCommand('nx run remap-tsc:test', options);
 
 const packageJson = await fs.readFile('package.json', 'utf8');
 const newPackageJson = JSON.stringify(

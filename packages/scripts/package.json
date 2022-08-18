@@ -1,0 +1,33 @@
+{
+  "name": "@esdmr/scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./is-pnpm": {
+      "types": "./build/is-pnpm.d.ts",
+      "default": "./is-pnpm.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "install-codecov": "install-codecov",
+    "upload-coverage": "upload-coverage.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "xo",
+    "lint:fix": "xo --fix"
+  },
+  "dependencies": {
+    "execa": "6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.18.21",
+    "typescript": "4.7.4",
+    "xo": "0.51.0"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

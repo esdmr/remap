@@ -202,10 +202,8 @@ Procfile          text
 *.*ignore         text
 
 # Project specific
-tap-snapshots/**  linguist-generated
-pnpm-lock.yaml    linguist-generated
-.changeset/**     linguist-documentation
-.github/**        linguist-documentation
-scripts/**.js     linguist-language=ts
-scripts/**.mjs    linguist-language=ts
-scripts/**.cjs    linguist-language=ts
+**/tap-snapshots/**  linguist-generated
+pnpm-lock.yaml       linguist-generated
+.changeset/**        linguist-documentation
+.github/**           linguist-documentation
+.taprc               linguist-language=yaml

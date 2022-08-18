@@ -1,74 +1,28 @@
 {
-  "name": "@esdmr/remap-tsc",
-  "version": "0.0.0",
-  "description": "Map TypeScript compiler source files to output files and vice versa",
-  "keywords": [
-    "typescript"
-  ],
-  "homepage": "https://github.com/esdmr/remap-tsc#readme",
-  "bugs": "https://github.com/esdmr/remap-tsc/issues",
-  "repository": "https://github.com/esdmr/remap-tsc",
-  "license": "MIT",
-  "author": "Saeed M Rad <esdmr0@gmail.com> (https://github.com/esdmr)",
-  "sideEffects": false,
+  "private": true,
   "type": "module",
-  "exports": {
-    ".": {
-      "types": "./build/index.d.ts",
-      "require": "./build/index.cjs",
-      "import": "./build/index.js"
-    },
-    "./package.json": "./package.json"
-  },
-  "main": "build/index.cjs",
-  "types": "build/index.d.ts",
-  "files": [
-    "CHANGELOG.md",
-    "src/**/*.ts",
-    "build/**/*.js",
-    "build/**/*.cjs",
-    "build/**/*.d.ts",
-    "build/**/*.map",
-    "!build/test/**/*",
-    "!build/examples/**/*"
-  ],
   "scripts": {
-    "build": "node scripts/build.js --tsc",
-    "build:dev": "node scripts/build.js --tsc --dev",
+    "build": "nx affected --base=origin/main --target=build",
     "changeset": "changeset",
     "changeset:version": "changeset version",
-    "clean": "rimraf build .nyc_output coverage",
-    "lint": "xo",
-    "lint:fix": "xo --fix",
-    "prepack": "node scripts/prepack.js",
-    "postpack": "node scripts/postpack.js",
-    "test": "tap",
-    "test:coverage": "c8 tap",
-    "test:coverage-html": "c8 report -r html",
-    "test:coverage-lcov": "c8 report -r lcov",
-    "watch": "node scripts/build.js --tsc --watch"
+    "clean": "rimraf \"**/build\" \"**/.nyc_output\" \"**/coverage\" \"**/docs\"",
+    "coverage-report": "nx affected --base=origin/main --target=coverage-report",
+    "docs": "nx affected --base=origin/main --target=docs",
+    "extended-test": "nx affected --base=origin/main --target=extended-test",
+    "lint": "nx affected --base=origin/main --target=lint",
+    "lint:fix": "nx affected --base=origin/main --target=lint:fix",
+    "test": "nx affected --base=origin/main --target=test",
+    "test:coverage": "nx affected --base=origin/main --target=test:coverage",
+    "watch": "chokidar '**/*.ts' '**/*.js' '**/*.json' '**/*.yml' '**/*.yaml' -i '**/node_modules/**/*' -i 'packages/*/build/**/*' -i '**/.nyc_output' -i '**/coverage/**/*' -i '**/docs/**/*' --silent -c 'clear && nx run-many --target=build'"
   },
   "devDependencies": {
     "@changesets/cli": "2.23.1",
-    "@types/mock-fs": "4.13.1",
-    "@types/node": "14.18.21",
-    "@types/semver": "7.3.10",
-    "@types/tap": "15.0.7",
-    "c8": "7.12.0",
-    "esbuild": "0.14.48",
-    "execa": "6.1.0",
-    "mock-fs": "5.1.2",
-    "readdirp": "3.6.0",
+    "@esdmr/scripts": "workspace:1.0.0",
+    "chokidar-cli": "3.0.0",
+    "nx": "14.5.6",
     "rimraf": "3.0.2",
-    "semver": "7.3.7",
-    "tap": "16.3.0",
-    "tsconfig-type": "1.25.0",
-    "typedoc": "0.23.8",
     "typescript": "4.7.4",
     "xo": "0.51.0"
-  },
-  "peerDependencies": {
-    "typescript": "4.7.x"
   },
   "packageManager": "pnpm@7.5.0",
   "engines": {

@@ -7,19 +7,25 @@ on:
   push:
     branches:
       - main
+      - releases/**
   pull_request:
     branches:
       - main
       - releases/**
 
 jobs:
-  build:
-    name: Build
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+        with:
+          fetch-depth: 2
+
+      - if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
+        run: git remote set-branches --add origin main && git fetch origin main --depth 1
 
       - name: Setup Node.js
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
@@ -31,13 +37,14 @@ jobs:
           corepack enable
           pnpm --version
 
-      - name: Set pnpm store-dir
-        run: pnpm config set store-dir .pnpm-store
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: .pnpm-store
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
@@ -46,57 +53,12 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: build
-          path: build
-
-  lint:
-    name: Lint
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
-        with:
-          node-version: "16"
-
-      - name: Setup pnpm
-        run: |-
-          corepack enable
-          pnpm --version
-
-      - name: Set pnpm store-dir
-        run: pnpm config set store-dir .pnpm-store
-
-      - name: Cache pnpm modules
-        uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
-        with:
-          path: .pnpm-store
-          key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.OS }}-pnpm-current
-
-      - name: Install packages
-        run: pnpm install
-
-      - uses: actions/download-artifact@master
-        with:
-          name: build
-          path: build
+        run: pnpm exec nx run-many --target=build
 
       - name: Run linter
-        run: pnpm run lint
+        run: pnpm exec nx run-many --target=lint
 
   test:
-    name: Test
-    needs: build
     strategy:
       matrix:
         os:
@@ -107,11 +69,15 @@ jobs:
         include:
           - os: ubuntu-latest
             node: "14"
+    name: Test / ${{ matrix.os }} / Node.JS ${{ matrix.node }}
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+
+      - if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
+        run: git remote set-branches --add origin main && git fetch origin main --depth 1
 
       - name: Setup Node.js
         uses: actions/setup-node@eeb10cff27034e7acf239c5d29f62154018672fd # tag=v3
@@ -123,13 +89,14 @@ jobs:
           corepack enable
           pnpm --version
 
-      - name: Set pnpm store-dir
-        run: pnpm config set store-dir .pnpm-store
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: .pnpm-store
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
@@ -137,25 +104,28 @@ jobs:
       - name: Install packages
         run: pnpm install
 
-      - uses: actions/download-artifact@master
-        with:
-          name: build
-          path: build
+      - name: Setup Codecov uploader
+        if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
+        run: pnpm exec install-codecov
+
+      - name: Audit packages
+        run: pnpm audit
+
+      - name: Build
+        run: pnpm exec nx run-many --target=build
 
       - name: Run tests (without coverage)
         if: matrix.node != '16' || matrix.os != 'ubuntu-latest'
-        run: pnpm run test
+        run: pnpm exec nx run-many --target=test
 
       - name: Run tests (with coverage)
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm run test:coverage
+        run: pnpm exec nx run-many --target=test:coverage
 
       - name: Export coverage report
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        run: pnpm run test:coverage-lcov
+        run: pnpm exec nx run-many --target=coverage-report
 
-      - name: Upload report to CodeCov
+      - name: Upload coverage
         if: matrix.node == '16' && matrix.os == 'ubuntu-latest'
-        uses: codecov/codecov-action@f32b3a3741e1053eb607407145bc9619351dc93b # renovate: tag=v2
-        with:
-          files: ./coverage/lcov.info
+        run: pnpm exec upload-coverage

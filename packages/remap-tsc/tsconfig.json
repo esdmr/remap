@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../.config/tsconfig.json",
+  "files": [],
+  "references": [
+    {
+      "path": "src"
+    },
+    {
+      "path": "test"
+    },
+    {
+      "path": "examples"
+    }
+  ]
+}

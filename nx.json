@@ -1,0 +1,72 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "extends": "nx/presets/npm.json",
+  "npmScope": "esdmr",
+  "implicitDependencies": {
+    ".config/*": "*",
+    "packages/scripts/run.js": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "docs",
+          "lint",
+          "lint:fix",
+          "test",
+          "test:coverage",
+          "extended-test"
+        ],
+        "runtimeCacheInputs": ["node -v"]
+      }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "docs": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "lint:fix": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "test:coverage": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "extended-test": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "coverage": {
+      "dependsOn": [
+        "test:coverage",
+        "coverage-report"
+      ]
+    }
+  },
+  "affected": {
+    "defaultBase": "origin/main"
+  }
+}
