@@ -9,8 +9,7 @@ if test -z "$GITHUB_PATH"; then
 fi
 
 # From https://docs.codecov.com/docs/codecov-uploader
-mkdir .codecov-uploader
-cd .codecov-uploader
+cd $(mktemp -d)
 
 # Add Codecov keys to gpg keyring
 curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step
@@ -26,4 +25,4 @@ shasum -a 256 -c codecov.SHA256SUM
 
 # Save to PATH
 chmod +x codecov
-echo $(pwd) >> $GITHUB_PATH
+pwd >> $GITHUB_PATH

@@ -31,12 +31,17 @@ jobs:
           pnpm --version
 
       - name: Set pnpm store-dir
-        run: pnpm config set store-dir .pnpm-store
+        id: pnpmStore
+        run: |-
+          const {spawnSync} = require('child_process');
+          process.stdout.write('::set-output name=dir::');
+          spawnSync('pnpm', ['store', 'path'], {stdio: 'inherit'});
+        shell: node {0}
 
       - name: Cache pnpm modules
         uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
-          path: .pnpm-store
+          path: ${{ steps.pnpmStore.outputs.dir }}
           key: ${{ runner.OS }}-pnpm-current-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.OS }}-pnpm-current
