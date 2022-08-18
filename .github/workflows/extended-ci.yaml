@@ -30,7 +30,7 @@ jobs:
           corepack enable
           pnpm --version
 
-      - name: Set pnpm store-dir
+      - name: Get pnpm store-dir
         id: pnpmStore
         run: |-
           const {spawnSync} = require('child_process');
