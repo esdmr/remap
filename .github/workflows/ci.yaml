@@ -13,6 +13,9 @@ on:
       - main
       - releases/**
 
+env:
+  NODE_DEBUG: child_process
+
 jobs:
   lint:
     name: Lint
