@@ -40,7 +40,7 @@ importers:
       readdirp: 3.6.0
       semver: 7.3.7
       tap: 16.3.0
-      tsconfig-type: 1.25.0
+      tsconfig-type: 1.27.0
       typedoc: 0.23.10
       typescript: 4.7.4
       xo: 0.51.0
@@ -57,7 +57,7 @@ importers:
       readdirp: 3.6.0
       semver: 7.3.7
       tap: 16.3.0_typescript@4.7.4
-      tsconfig-type: 1.25.0
+      tsconfig-type: 1.27.0
       typedoc: 0.23.10_typescript@4.7.4
       typescript: 4.7.4
       xo: 0.51.0
@@ -4603,8 +4603,8 @@ packages:
       strip-bom: 3.0.0
     dev: true
 
-  /tsconfig-type/1.25.0:
-    resolution: {integrity: sha512-+gbp8ouuSqADNd/5vXEfISjFF18A4NLsGMSLCAc7QkBWQnBQGuM3Wgw+xD3ZgknuKeoFOEurxHaEj94gFnpPuA==}
+  /tsconfig-type/1.27.0:
+    resolution: {integrity: sha512-AqaCPWKadRpUurdA+e23LJ5R3ZSMWb0ph3HOZzUMIzaBLID9zprcXISWJvBUVNRKSxIoa7fVVWkinv2sFg7/+Q==}
     dev: true
 
   /tslib/1.14.1:
