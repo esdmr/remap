@@ -13,7 +13,7 @@ importers:
       '@changesets/cli': 2.25.0
       '@esdmr/scripts': workspace:1.0.0
       chokidar-cli: 3.0.0
-      nx: 14.8.4
+      nx: 14.8.5
       rimraf: 3.0.2
       typescript: 4.7.4
       xo: 0.51.0
@@ -21,7 +21,7 @@ importers:
       '@changesets/cli': 2.25.0
       '@esdmr/scripts': link:packages/scripts
       chokidar-cli: 3.0.0
-      nx: 14.8.4
+      nx: 14.8.5
       rimraf: 3.0.2
       typescript: 4.7.4
       xo: 0.51.0
@@ -611,21 +611,21 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@nrwl/cli/14.8.4:
-    resolution: {integrity: sha512-JBoMw1IUFbtahDWolv3iBWJyO3ZXHOsqUt2AvWSrKfteOCjhSfG9GdQYGlnV9ZpWAx4bDf4f7Xz5z6+DJuaONA==}
+  /@nrwl/cli/14.8.5:
+    resolution: {integrity: sha512-aO4fTKSJFf2Lc39x1E/SUYODYDjzWEt1tuPL0wZrZwittnGydk0WkuzXxUHW2nIKdX5jlr2c1DtBo+YhVK09bw==}
     dependencies:
-      nx: 14.8.4
+      nx: 14.8.5
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
       - debug
     dev: true
 
-  /@nrwl/tao/14.8.4:
-    resolution: {integrity: sha512-wEDBELOYzfvp96xCnoWoMr4UA/e3cUri7kAXDGK3hrGGcCUplJ+notHiKJoZXmB3yHME2PMJca4dHcG4zVgA0w==}
+  /@nrwl/tao/14.8.5:
+    resolution: {integrity: sha512-v4BnGE0loLCLva0iYCF7Vw4ZKdFVaFJhFGDGZtGbhH6I0Zzhrf4enSM8SBO65w1f1g8tEdZjrXefhQVqQb8zWA==}
     hasBin: true
     dependencies:
-      nx: 14.8.4
+      nx: 14.8.5
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
@@ -3600,8 +3600,8 @@ packages:
     dependencies:
       path-key: 4.0.0
 
-  /nx/14.8.4:
-    resolution: {integrity: sha512-J7QlmG6rsdR+1Ry0pohPZXHpPN1lzE70lvuCXveyU61VX8HsrbZBzgLif07BUT8lHbs7ORaOJSZd4BCqZBJSSw==}
+  /nx/14.8.5:
+    resolution: {integrity: sha512-NjjRyGcSMLJs9BEaD7uJVjNoUKG1NKA2am9sSdPSuspWNanEvHT+SIOkH/tiPsQUWIGoq6JgzRpVSjcvibqGVg==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
@@ -3613,8 +3613,8 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/cli': 14.8.4
-      '@nrwl/tao': 14.8.4
+      '@nrwl/cli': 14.8.5
+      '@nrwl/tao': 14.8.5
       '@parcel/watcher': 2.0.4
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.27
