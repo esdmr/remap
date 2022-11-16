@@ -31,7 +31,7 @@ importers:
       '@esdmr/scripts': workspace:^1.0.0
       '@types/mock-fs': 4.13.1
       '@types/node': ^14.0.0
-      '@types/semver': 7.3.12
+      '@types/semver': 7.3.13
       '@types/tap': 15.0.7
       c8: 7.12.0
       esbuild: 0.15.12
@@ -48,7 +48,7 @@ importers:
       '@esdmr/scripts': link:../scripts
       '@types/mock-fs': 4.13.1
       '@types/node': 14.18.21
-      '@types/semver': 7.3.12
+      '@types/semver': 7.3.13
       '@types/tap': 15.0.7
       c8: 7.12.0
       esbuild: 0.15.12
@@ -696,8 +696,8 @@ packages:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
     dev: true
 
-  /@types/semver/7.3.12:
-    resolution: {integrity: sha512-WwA1MW0++RfXmCr12xeYOOC5baSC9mSb0ZqCquFzKhcoF4TvHu5MKOuXsncgZcpVFhB1pXd5hZmM0ryAoCp12A==}
+  /@types/semver/7.3.13:
+    resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
     dev: true
 
   /@types/tap/15.0.7:
