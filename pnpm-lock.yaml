@@ -41,7 +41,7 @@ importers:
       semver: 7.3.8
       tap: 16.3.1
       tsconfig-type: 1.27.0
-      typedoc: 0.23.20
+      typedoc: 0.23.21
       typescript: 4.7.4
       xo: 0.51.0
     devDependencies:
@@ -58,7 +58,7 @@ importers:
       semver: 7.3.8
       tap: 16.3.1_typescript@4.7.4
       tsconfig-type: 1.27.0
-      typedoc: 0.23.20_typescript@4.7.4
+      typedoc: 0.23.21_typescript@4.7.4
       typescript: 4.7.4
       xo: 0.51.0
 
@@ -4818,12 +4818,12 @@ packages:
       is-typedarray: 1.0.0
     dev: true
 
-  /typedoc/0.23.20_typescript@4.7.4:
-    resolution: {integrity: sha512-nfb4Mx05ZZZXux3zPcLuc7+3TVePDW3jTdEBqXdQzJUyEILxoprgPIiTChbvci9crkqNJG9YESmfCptuh9Gn3g==}
+  /typedoc/0.23.21_typescript@4.7.4:
+    resolution: {integrity: sha512-VNE9Jv7BgclvyH9moi2mluneSviD43dCE9pY8RWkO88/DrEgJZk9KpUk7WO468c9WWs/+aG6dOnoH7ccjnErhg==}
     engines: {node: '>= 14.14'}
     hasBin: true
     peerDependencies:
-      typescript: 4.6.x || 4.7.x || 4.8.x
+      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x
     dependencies:
       lunr: 2.3.9
       marked: 4.1.0
