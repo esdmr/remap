@@ -16,7 +16,7 @@
     "watch": "chokidar '**/*.ts' '**/*.js' '**/*.json' '**/*.yml' '**/*.yaml' -i '**/node_modules/**/*' -i 'packages/*/build/**/*' -i '**/.nyc_output' -i '**/coverage/**/*' -i '**/docs/**/*' --silent -c 'clear && nx run-many --target=build'"
   },
   "devDependencies": {
-    "@changesets/cli": "2.25.2",
+    "@changesets/cli": "2.26.0",
     "@esdmr/scripts": "workspace:1.0.0",
     "chokidar-cli": "3.0.0",
     "nx": "14.8.6",
